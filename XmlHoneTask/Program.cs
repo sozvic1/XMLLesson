@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml;
 
 namespace XmlHoneTask
@@ -44,20 +45,18 @@ namespace XmlHoneTask
         {
             XmlDocument document = new XmlDocument();
             document.Load("TelephoneBook.xml");
-
             Console.WriteLine(document.InnerXml);
-            XmlNode root = document.DocumentElement;
-
-            foreach (XmlNode contacts in root.ChildNodes)
+        
+            FileStream stream = new FileStream("TelephoneBook.xml", FileMode.Open);
+            XmlTextReader reader = new XmlTextReader(stream);
+            while (reader.Read())
             {
-
-                foreach (XmlNode contact in contacts.ChildNodes)
-                {
-                    Console.WriteLine($"Found Contact: {contact.InnerText} ");
-
-                }
+                Console.WriteLine("{0,-15} {1,-10} {2,-10}",
+                    reader.NodeType.ToString(),
+                    reader.Name,  
+                    reader.Value);
             }
-           
+
         }
 
         private static void GetAttributeValue()

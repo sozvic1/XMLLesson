@@ -14,10 +14,12 @@ namespace HomeTask4
         //private ListBox listBox1;
        
         private ColorDialog chooseColorDialog = new ColorDialog();
+        
         public Form1()
         {
             InitializeComponent();
             button1.Click += new EventHandler(ChooseColor);
+           
             try
             {
                 if (ReadSettings() == false)
@@ -38,6 +40,12 @@ namespace HomeTask4
         {
             if (chooseColorDialog.ShowDialog() == DialogResult.OK)
                 this.BackColor = chooseColorDialog.Color;
+
+        }
+        private void ColorText()
+        {
+            if (chooseColorDialog.ShowDialog() == DialogResult.OK)
+                this.ForeColor = chooseColorDialog.Color;
         }
         bool ReadSettings()
         {
@@ -52,19 +60,14 @@ namespace HomeTask4
             int blue = Convert.ToInt32(allAppSettings["BackGroundColor.B"]);
 
             this.BackColor = Color.FromArgb(red, green, blue);
-            listBox1.Items.Add("Цвет фона: " + BackColor.Name);
+            listBox1.Items.Add("Цвет фона: " + BackColor.Name);            
+        
 
-            //2. Расположение на экране.
-            int X = Convert.ToInt32(allAppSettings["X"]);
-            int Y = Convert.ToInt32(allAppSettings["Y"]);
-
-            this.DesktopLocation = new Point(X, Y);
-            listBox1.Items.Add("Расположение: " + DesktopLocation.ToString());
-
-            //3. Размеры окна.
             this.Height = Convert.ToInt32(allAppSettings["Window.Height"]);
             this.Width = Convert.ToInt32(allAppSettings["Window.Width"]);
-            listBox1.Items.Add("Размер: " + new Size(Width, Height).ToString());
+            this.Text =  new Size(Width, Height).ToString();
+
+           
 
             //4. Состояние окна.
             string winState = allAppSettings["Window.State"];
@@ -73,14 +76,6 @@ namespace HomeTask4
             return (true);
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }
